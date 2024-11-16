@@ -9,15 +9,7 @@ project1_cash_flows = [-1000, 300, 400, 500, 600]
 project2_cash_flows = [-800, 250, 350, 450, 550, 200]
 project3_cash_flows = [-1200, 350, 450, 550, 650, 300, 200]
 
-class ProjectCashFlows:
-    project_name = ""
-    project_cash_flows = []
-    project_period = 0
 
-    def __init__(self, project_name, project_cach_flows):
-        self.project_name = project_name
-        self.project_cash_flows = project_cach_flows
-        self.project_period = len(project_cach_flows)
 
 project1 = ProjectCashFlows("1",project1_cash_flows)
 project2 = ProjectCashFlows("2",project2_cash_flows)
@@ -74,7 +66,7 @@ def diff_calc(project_list: List[ProjectCashFlows], rate):
         
         # 输出排序结果
         print(f"Project priorities: {sorted_projects}")
-        return sorted_project
+        return sorted_projects
     except nx.NetworkXUnfeasible:
         # 如果图包含环，则拓扑排序不可行
         print("The graph contains a cycle and cannot be topologically sorted.")
