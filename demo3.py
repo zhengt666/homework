@@ -1,17 +1,20 @@
 import numpy as np
 from itertools import combinations
+from project_cash_flows import ProjectCashFlows
 
-# 假设的方案数据，包括投资额和预期收益
-projects = [
-    {'investment': 100, 'return': 120},
-    {'investment': 220, 'return': 250},
-    {'investment': 150, 'return': 180},
-    {'investment': 300, 'return': 360},
-    {'investment': 250, 'return': 300}
-]
+# 定义项目的现金流数据和周期
+project1_cash_flows = [-1000, 300, 400, 500, 600]
+project2_cash_flows = [-800, 250, 350, 450, 550, 200]
+project3_cash_flows = [-1200, 350, 450, 550, 650, 300, 200]
+
+project1 = ProjectCashFlows("1",project1_cash_flows,1000)
+project2 = ProjectCashFlows("2",project2_cash_flows,800)
+project3 = ProjectCashFlows("3",project3_cash_flows,1200)
+
+project_list = [project1,project2,project3]
 
 # 固定的总投资额
-total_investment = 500
+total_investment = 2500
 
 # 计算组合的总收益
 def calculate_return(combination):
