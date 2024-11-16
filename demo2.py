@@ -54,9 +54,9 @@ def diff_calc(project_list: List[ProjectCashFlows], rate):
         calc_diff_irr = diff_irr(combo[0].project_cash_flows, combo[1].project_cash_flows)
         print(f"Difference IRR between Project {combo[0].project_name} and Project {combo[1].project_name}: {calc_diff_irr * 100:.2f}%")
         if calc_diff_irr < rate:
-            diff_irrs.append((combo[1].project_name,combo[0].project_name))
+            diff_irrs.append((combo[1],combo[0]))
         else:
-            diff_irrs.append((combo[0].project_name,combo[1].project_name))
+            diff_irrs.append((combo[0],combo[1]))
     
     print(diff_irrs)
     # 创建有向图
@@ -74,6 +74,7 @@ def diff_calc(project_list: List[ProjectCashFlows], rate):
         
         # 输出排序结果
         print(f"Project priorities: {sorted_projects}")
+        return sorted_project
     except nx.NetworkXUnfeasible:
         # 如果图包含环，则拓扑排序不可行
         print("The graph contains a cycle and cannot be topologically sorted.")
