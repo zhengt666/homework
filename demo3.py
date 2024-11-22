@@ -1,6 +1,6 @@
 import numpy as np
 from itertools import combinations
-from project_cash_flows import ProjectCashFlows
+from domian import ProjectCashFlows
 from typing import List
 
 # 定义项目的现金流数据和周期

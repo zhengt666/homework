@@ -3,7 +3,7 @@ from scipy.optimize import fsolve
 from typing import List
 import itertools
 import networkx as nx
-from project_cash_flows import ProjectCashFlows
+from domian import ProjectCashFlows
 
 # 定义项目的现金流数据和周期
 project1_cash_flows = [-1000, 300, 400, 500, 600]

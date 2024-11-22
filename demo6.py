@@ -1,6 +1,10 @@
 import numpy as np
 
-def dynamic_payback_period(initial_investment, cash_flows, discount_rate):
+def dynamic_payback_period(cash_flows, discount_rate):
+    """
+    初始投资即第一年年初现金流
+    """
+    initial_investment = np.abs(cash_flows[0])
     """
     计算动态回收期。
     
@@ -38,5 +42,5 @@ cash_flows = [200, 300, 400, 500]  # 现金流
 discount_rate = 0.05  # 折现率5%
 
 # 计算动态回收期
-payback_period = dynamic_payback_period(initial_investment, cash_flows, discount_rate)
+payback_period = dynamic_payback_period(cash_flows, discount_rate)
 print(f"动态回收期: {payback_period}")
