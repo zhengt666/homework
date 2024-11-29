@@ -2,7 +2,7 @@ import numpy as np
 from scipy.optimize import fsolve
 
 # 假设的现金流数据，你可以根据实际情况进行修改
-cash_flows = [-1000, 300, 400, 500, 600]
+cash_flows = [-279.65, 137.53, 137.53, 137.53, 137.53,137.53+97.25+15]
 
 # 设定贴现率，你可以根据实际情况调整
 discount_rate = 0.1
