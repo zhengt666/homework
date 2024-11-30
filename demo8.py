@@ -5,15 +5,19 @@ import matplotlib.pyplot as plt
 
 # 定义净现值计算函数
 def calculate_npv(K, B, C, r, n):
+    print(f'{K},{B},{C}')
     return -K + (B - C) * (1 - (1 + r) ** -n) / r
 
 # 定义单因素敏感性分析函数
 def single_factor_sensitivity_analysis(factor, base_value, r, n, variation_range):
     npv_values = []
+    print(f"{factor}")
     for variation in variation_range:
+        
         new_value = base_value * (1 + variation / 100)
-        npv = calculate_npv(K, B, C, r, n) if factor == 'K' else calculate_npv(K if factor == 'B' else new_value, B if factor == 'C' else new_value, C, r, n)
+        npv = calculate_npv(new_value, B, C, r, n) if factor == 'K' else calculate_npv(K , B if factor != 'B' else new_value, C if factor != 'C' else new_value, r, n)
         npv_values.append(npv)
+        print(f'{factor}, {new_value},{int(variation)},{npv}')
     return npv_values
 
 def draw_single_factor(K,B,C,i,n):

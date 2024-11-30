@@ -172,6 +172,33 @@ def dynamic_payback_period(project:ProjectAnalysis, discount_rate):
     print(f"计算 project:{project.project_name} 的动态回收期为: {payback_period}")
     return payback_period
 
+
+# 计算静态回收期
+def static_payback_period(project:ProjectAnalysis, discount_rate):
+    """
+    计算静态回收期。
+    
+    :param initial_investment: 初始投资额
+    :param cash_flows: 现金流列表，按时间序列排列
+    :param discount_rate: 折现率
+    :return: 动态回收期
+    """
+    cumulative = 0
+    payback_period = 0
+    for i, cash_flow in enumerate(project.project_cash_flows):
+        cash_year = cash_flow
+        cumulative += cash_year
+        if cumulative >= 0:
+            remaining_year = round(1 - (cumulative / cash_year),2)
+            payback_period = i - 1 + remaining_year
+            break
+    
+    # 如果投资没有回收，则返回None
+    if cumulative < 0:
+        return None
+    print(f"计算 project:{project.project_name} 的静态回收期为: {payback_period}")
+    return payback_period
+
 # 绘制现金流量图
 def draw_cash_flow(project:ProjectAnalysis):
     # 颜色设置
@@ -180,7 +207,8 @@ def draw_cash_flow(project:ProjectAnalysis):
     title_color = 'black'
 
     # 调整中文显示
-    plt.rcParams['font.sans-serif'] = ['PingFang SC']
+    #plt.rcParams['font.sans-serif'] = ['PingFang SC']
+    plt.rcParams['font.sans-serif'] = ['Sim Hei']
     plt.rcParams['axes.unicode_minus'] = False
     # 设置绘图标题
     plt.title(f"Cash Flow Diagram of {project.project_name}", c=title_color)
@@ -230,7 +258,7 @@ def single_factor_sensitivity_analysis(factor, base_value, r, n, variation_range
     npv_values = []
     for variation in variation_range:
         new_value = base_value * (1 + variation / 100)
-        npv = calculate_npv_single(K, B, C, r, n) if factor == 'K' else calculate_npv_single(K if factor == 'B' else new_value, B if factor == 'C' else new_value, C, r, n)
+        npv = calculate_npv_single(new_value, B, C, r, n) if factor == 'K' else calculate_npv_single(K , B if factor != 'B' else new_value, C if factor != 'C' else new_value, r, n)
         npv_values.append(npv)
     return npv_values
 

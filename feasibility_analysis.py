@@ -1,6 +1,6 @@
 from domian import ProjectAnalysis
 from typing import List
-from feasibility_utils import feasibility_check,calc_rank,calc_best_combination,calculate_break_even,dynamic_payback_period,draw_cash_flow,draw_single_factor,draw_multi_factor
+from feasibility_utils import feasibility_check,calc_rank,calc_best_combination,calculate_break_even,dynamic_payback_period,draw_cash_flow,draw_single_factor,draw_multi_factor,static_payback_period
 
 # 折现率
 discount_rate = 0.1
@@ -23,8 +23,11 @@ for i in range(len(project_list)):
 
 print("计算可行方案的动态回收期，以及画出现金流量图")
 for project in feasibility_project_list:
-    payback_period = dynamic_payback_period(project,discount_rate)
-    project.project_dynamic_cycle = payback_period
+    payback_period_dynamic = dynamic_payback_period(project,discount_rate)
+    project.project_dynamic_cycle = payback_period_dynamic
+    
+    payback_period_static = static_payback_period(project,discount_rate)
+    project.project_static_cycle = payback_period_static
     draw_cash_flow(project)
     
 print("排列项目优先")
