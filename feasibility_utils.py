@@ -5,7 +5,64 @@ import itertools
 import networkx as nx
 from domian import ProjectAnalysis
 import matplotlib.pyplot as plt
+import sys
+import os,shutil
+import tkinter as tk
+from tkinter import filedialog, messagebox
 
+def is_float(s):
+    try:
+        float(s)
+        return True
+    except ValueError:
+        return False
+
+
+def upload_excel_files():
+    # 创建一个隐藏的主窗口
+    root = tk.Tk()
+    root.withdraw()
+        
+    # 设置上传目录
+    upload_dir = os.path.join(os.getcwd(), 'projects')
+    if not os.path.exists(upload_dir):
+        os.makedirs(upload_dir)
+    else:
+        shutil.rmtree(upload_dir)
+        os.makedirs(upload_dir)
+    # 弹出文件选择对话框，允许用户选择多个文件
+    file_paths = filedialog.askopenfilenames(
+        title="选择Excel文件",
+        filetypes=[("Excel files", "*.xlsx *.xls")]
+    )
+    
+    # 如果没有选择文件，则退出函数
+    if not file_paths:
+        exit()
+    
+    # 遍历选择的文件并上传到上传目录
+    for file_path in file_paths:
+        # 构造完整的保存路径
+        save_path = os.path.join(upload_dir, os.path.basename(file_path))
+        
+        # 复制文件到上传目录
+        try:
+            with open(file_path, 'rb') as f_src, open(save_path, 'wb') as f_dst:
+                f_dst.write(f_src.read())
+            
+            messagebox.showinfo("上传成功", f"文件 {os.path.basename(file_path)} 已成功上传到 {save_path}")
+        
+        except Exception as e:
+            messagebox.showerror("上传失败", f"无法上传文件 {os.path.basename(file_path)}: {e}")
+
+
+def get_os_front():
+    if sys.platform == "win32":
+        return "Microsoft YaHei"
+    elif sys.platform == "darwin":
+        return "PingFang SC"
+    else:
+        return "HeiTi"
 
 
 # npv 可行性分析
@@ -37,7 +94,7 @@ def npv(cash_flows, discount_rate):
 def irr(cash_flows):
     def f(r):
         return sum(cash_flows[i] / (1 + r)**i for i in range(len(cash_flows)))
-    return fsolve(f, 0.1)[0]
+    return round(fsolve(f, 0.1)[0],4)
 
 # 计算项目之间的差额内部收益率，扩展到不同周期
 def diff_irr(cash_flows1, cash_flows2):
@@ -49,6 +106,8 @@ def diff_irr(cash_flows1, cash_flows2):
 
 # 计算优劣方案组合
 def calc_rank(project_list: List[ProjectAnalysis], rate) -> List[ProjectAnalysis]:
+    if len(project_list) <= 1:
+        return project_list
     for project in project_list:
         calc_irr = irr(project.project_cash_flows)
         print(f"Project {project.project_name} IRR: {calc_irr * 100:.2f}%")
@@ -91,13 +150,22 @@ combinations_list:List[ProjectAnalysis] = []
 def calculate_return(project_list: List[ProjectAnalysis],total_investment):
     total_return = 0
     total_invest = 0
+    chose_project:List[str] = []
     for project in project_list:
+        jump = False
+        for opposite in project.project_opposites:
+            if opposite in chose_project:
+                jump = True
+                break
+        if jump:
+            continue
         total_invest += project.project_invest
         if total_invest >= total_investment:
             total_invest -= project.project_invest
             continue
         combinations_list.append(project)
         total_return += project.project_npv
+        chose_project.append(project.project_name)
     return total_return
 
 # 最优方案选择
@@ -107,7 +175,8 @@ def calc_best_combination(project_list: List[ProjectAnalysis],total_investment:f
     return combinations_list
 
 # 计算盈亏平衡
-def calculate_break_even(fixed_cost, total_cost, production_capacity, selling_price):
+def calculate_break_even(project:ProjectAnalysis):
+    fixed_cost, total_cost, production_capacity, selling_price = project.project_fixed_cost,project.project_total_cost,project.project_production_capacticy,project.project_selling_price
     # 计算变动成本
     variable_cost = (total_cost - fixed_cost) / production_capacity
     
@@ -127,10 +196,10 @@ def calculate_break_even(fixed_cost, total_cost, production_capacity, selling_pr
     safety_margin = 1 - (break_even_quantity / production_capacity)
 
     # 打印结果
-    print(f"盈亏平衡产量: {break_even_quantity} 件")
-    print(f"盈亏平衡生产能力利率: {break_even_rate}%")
-    print(f"盈亏平衡销售价格: {break_even_selling_price} 元/件")
-    print(f"盈亏平衡单位产品变动成本: {break_even_variable_cost} 元/件")
+    print(f"盈亏平衡产量: {round(break_even_quantity,0)} 件")
+    print(f"盈亏平衡生产能力利率: {round(break_even_rate,2)}%")
+    print(f"盈亏平衡销售价格: {round(break_even_selling_price,2)} 元/件")
+    print(f"盈亏平衡单位产品变动成本: {round(break_even_variable_cost,2)} 元/件")
     print(f"经营安全率: {safety_margin*100}%")
     
     if safety_margin > 0.5:
@@ -174,7 +243,7 @@ def dynamic_payback_period(project:ProjectAnalysis, discount_rate):
 
 
 # 计算静态回收期
-def static_payback_period(project:ProjectAnalysis, discount_rate):
+def static_payback_period(project:ProjectAnalysis):
     """
     计算静态回收期。
     
@@ -207,15 +276,15 @@ def draw_cash_flow(project:ProjectAnalysis):
     title_color = 'black'
 
     # 调整中文显示
-    #plt.rcParams['font.sans-serif'] = ['PingFang SC']
-    plt.rcParams['font.sans-serif'] = ['Sim Hei']
+    plt.rcParams['font.sans-serif'] = [get_os_front()]
     plt.rcParams['axes.unicode_minus'] = False
     # 设置绘图标题
     plt.title(f"Cash Flow Diagram of {project.project_name}", c=title_color)
     plt.ylabel("Funds (in ten thousand yuan)")
 
     # 设置初始变量值
-    distance = 100
+    distance = project.distance
+    print(f"distance:{distance}")
     negative_array = [-x for x in project.project_cash_flows_out]
     cash_flow_array : List[List[int]] = [project.project_cash_flows_in,negative_array]
 
@@ -263,7 +332,8 @@ def single_factor_sensitivity_analysis(factor, base_value, r, n, variation_range
     return npv_values
 
 # 绘制单因素分析
-def draw_single_factor(K,B,C,r,n):
+def draw_single_factor(project:ProjectAnalysis,discount_rate):
+    K,B,C,r,n = project.project_invest,project.project_cash_flows_in[1],project.project_cash_flows_out[1],discount_rate,project.project_period
     # 设置变动范围
     variation_range = np.arange(-20, 21, 5)
 
@@ -272,6 +342,9 @@ def draw_single_factor(K,B,C,r,n):
     npv_B = single_factor_sensitivity_analysis('B', B, r, n, variation_range,K,B,C)
     npv_C = single_factor_sensitivity_analysis('C', C, r, n, variation_range,K,B,C)
 
+    # 调整中文显示
+    plt.rcParams['font.sans-serif'] = [get_os_front()]
+    plt.rcParams['axes.unicode_minus'] = False
     # 绘制敏感性分析图
     plt.figure(figsize=(10, 6))
     plt.plot(variation_range, npv_K, label='Investment Sensitivity')
@@ -279,7 +352,7 @@ def draw_single_factor(K,B,C,r,n):
     plt.plot(variation_range, npv_C, label='Operating Cost Sensitivity')
     plt.xlabel('Variation (%)')
     plt.ylabel('NPV (10,000 yuan)')
-    plt.title('Single Factor Sensitivity Analysis')
+    plt.title(f'Single Factor Sensitivity Analysis of {project.project_name}')
     plt.legend()
     plt.grid(True)
     plt.show()
@@ -291,7 +364,8 @@ def calculate_npv_multi(K, B, C, r, n, X, Y, Z):
     return -K * (1 + X) + (B * (1 + Y) - C * (1 + Z)) * (1 - (1 + r) ** -n) / r
 
 # 绘制多因素分析
-def draw_multi_factor(K,B,C,r,n):
+def draw_multi_factor(project:ProjectAnalysis,discount_rate):
+    K,B,C,r,n = project.project_invest,project.project_cash_flows_in[1],project.project_cash_flows_out[1],discount_rate,project.project_period
     # 设置变动范围
     X_range = np.linspace(-0.2, 0.2, 100)  # 投资额变动范围 -20% 到 20%
     Y_range = np.linspace(-0.2, 0.2, 100)  # 年销售收入变动范围 -20% 到 20%
@@ -306,11 +380,15 @@ def draw_multi_factor(K,B,C,r,n):
         NPV += calculate_npv_multi(K, B, C, r, n, X, Y, z) / len(Z_range)
 
     # 绘制等高线图
+    # 调整中文显示
+    plt.rcParams['font.sans-serif'] = [get_os_front()]
+    plt.rcParams['axes.unicode_minus'] = False
+    
     plt.figure(figsize=(10, 6))
     contour = plt.contour(X, Y, NPV, levels=[0], colors='black')
     plt.clabel(contour, inline=True, fontsize=8)
     plt.xlabel('Investment Change (%)')
     plt.ylabel('Sales Revenue Change (%)')
-    plt.title('Multi-Factor Sensitivity Analysis')
+    plt.title(f'Multi-Factor Sensitivity Analysis of {project.project_name}')
     plt.grid(True)
     plt.show()

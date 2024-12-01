@@ -15,14 +15,16 @@ class ProjectAnalysis:
     project_cash_flows_out = []
     project_dynamic_cycle = 0
     project_static_cycle = 0
+    project_opposites = []
+    distance = 100
 
-    def __init__(self, project_name:str, project_cach_flows_in:List,project_cash_flows_out:List
-                 ,project_fixed_cost:float,project_total_cost:float,project_production_capacticy:int,project_selling_price:float,discount_rate:float):
+    def __init__(self, project_name:str, project_cash_flows_in:List,project_cash_flows_out:List
+                 ,project_fixed_cost:float,project_total_cost:float,project_production_capacticy:int,project_selling_price:float,discount_rate:float,project_opposites:List[str]):
         self.project_name = project_name
-        self.project_cash_flows_in = project_cach_flows_in
+        self.project_cash_flows_in = project_cash_flows_in
         self.project_cash_flows_out = project_cash_flows_out
         self.project_invest = project_cash_flows_out[0]
-        project_cash_flows,project_period = combined_cash_flows(project_cach_flows_in,project_cash_flows_out)
+        project_cash_flows,project_period,distance = combined_cash_flows(project_cash_flows_in,project_cash_flows_out,self.distance)
         self.project_cash_flows = project_cash_flows
         self.project_period = project_period
         self.project_npv = npv(self.project_cash_flows,discount_rate)
@@ -30,6 +32,8 @@ class ProjectAnalysis:
         self.project_total_cost = project_total_cost
         self.project_production_capacticy = project_production_capacticy
         self.project_selling_price = project_selling_price
+        self.project_opposites = project_opposites
+        self.distance = distance * 0.9
 
 
 
@@ -40,9 +44,13 @@ def npv(cash_flows, discount_rate):
 
 
 # 合并现金流
-def combined_cash_flows(project_cach_flows_in,project_cash_flows_out):
+def combined_cash_flows(project_cash_flows_in,project_cash_flows_out,distance):
     project_cash_flows = []
-    project_period = len(project_cach_flows_in)
-    for i in range(len(project_cach_flows_in)):
-        project_cash_flows.append(project_cach_flows_in[i] - project_cash_flows_out[i])
-    return project_cash_flows,project_period
+    project_period = len(project_cash_flows_in)
+    for i in range(len(project_cash_flows_in)):
+        project_cash_flows.append(project_cash_flows_in[i] - project_cash_flows_out[i])
+        if 0 < project_cash_flows_in[i] < distance:
+            distance = project_cash_flows_in[i]
+        if 0 < project_cash_flows_out[i] < distance:
+            distance = project_cash_flows_out[i]
+    return project_cash_flows,project_period,distance
