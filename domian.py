@@ -48,7 +48,7 @@ def combined_cash_flows(project_cash_flows_in,project_cash_flows_out,distance):
     project_cash_flows = []
     project_period = len(project_cash_flows_in)
     for i in range(len(project_cash_flows_in)):
-        project_cash_flows.append(project_cash_flows_in[i] - project_cash_flows_out[i])
+        project_cash_flows.append(round(project_cash_flows_in[i] - project_cash_flows_out[i],2))
         if 0 < project_cash_flows_in[i] < distance:
             distance = project_cash_flows_in[i]
         if 0 < project_cash_flows_out[i] < distance:

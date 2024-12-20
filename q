@@ -1,0 +1,2 @@
+
+        project2 = ProjectAnalysis(project_name_2,project_inflow_2,project_outflow_2,project_fixed_cost_2,project_total_cost_2,project_production_capacticy_2,project_selling_price_2,discount_rate,[project_opposites_2])

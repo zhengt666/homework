@@ -9,6 +9,9 @@ import sys
 import os,shutil
 import tkinter as tk
 from tkinter import filedialog, messagebox
+import openpyxl
+
+
 
 def is_float(s):
     try:
@@ -31,7 +34,7 @@ def upload_excel_files():
         shutil.rmtree(upload_dir)
         os.makedirs(upload_dir)
     # 弹出文件选择对话框，允许用户选择多个文件
-    file_paths = filedialog.askopenfilenames(
+    file_paths = filedialog.askopenfilename(
         title="选择Excel文件",
         filetypes=[("Excel files", "*.xlsx *.xls")]
     )
@@ -392,3 +395,66 @@ def draw_multi_factor(project:ProjectAnalysis,discount_rate):
     plt.title(f'Multi-Factor Sensitivity Analysis of {project.project_name}')
     plt.grid(True)
     plt.show()
+    
+def get_base_data_openpyxl(file_path):
+    """
+    使用openpyxl库获取指定Excel文件第一个sheet的B1和B2单元格数据
+    :param file_path: Excel文件的路径
+    :return: B1和B2单元格的数据组成的元组，如果单元格为空则返回None
+    """
+    try:
+        workbook = openpyxl.load_workbook(file_path)
+        first_sheet = workbook.worksheets[0]
+
+        b1_data = first_sheet['B1'].value
+        b2_data = first_sheet['B2'].value
+
+        return b1_data, b2_data
+    except FileNotFoundError:
+        print(f"文件 {file_path} 未找到，请检查文件路径是否正确。")
+        return None, None
+    except Exception as e:
+        print(f"出现其他错误: {str(e)}")
+        return None, None
+
+def get_projects(file_path:str,discount_rate:float):
+    workbook = openpyxl.load_workbook(file_path, data_only=True)
+    all_sheets_except_first = workbook.worksheets[1:]
+    project_list = []
+    for sheet in all_sheets_except_first:
+        print(f"读取sheet: {sheet.title}")
+        project_name_1 = sheet['B1'].value
+        project_proid_1 = sheet['B2'].value
+        project_inflow_1 = []
+        project_outflow_1 = []
+        for col in range(2, 3+project_proid_1):  # 对应第二列到第七列，在openpyxl中列索引从1开始
+            in_cell = sheet.cell(row=5, column=col)
+            project_inflow_1.append(in_cell.value)
+            out_cell = sheet.cell(row=9, column=col)
+            project_outflow_1.append(out_cell.value)
+        project_fixed_cost_1 = sheet['B19'].value
+        project_total_cost_1 = sheet['B18'].value
+        project_production_capacticy_1 = sheet['B16'].value
+        project_selling_price_1 = sheet['B17'].value
+        project_opposites_1 = sheet['Q2'].value
+        project1 = ProjectAnalysis(project_name_1,project_inflow_1,project_outflow_1,project_fixed_cost_1,project_total_cost_1,project_production_capacticy_1,project_selling_price_1,discount_rate,[project_opposites_1])
+        
+        project_name_2 = sheet['Q1'].value
+        project_proid_2 = sheet['Q2'].value
+        project_inflow_2 = []
+        project_outflow_2 = []
+        for col in range(17, 18+project_proid_2):  # 对应第二列到第七列，在openpyxl中列索引从2开始
+            in_cell = sheet.cell(row=5, column=col)
+            project_inflow_2.append(in_cell.value)
+            out_cell = sheet.cell(row=9, column=col)
+            project_outflow_2.append(out_cell.value)
+        project_fixed_cost_2 = sheet['Q19'].value
+        project_total_cost_2 = sheet['Q18'].value
+        project_production_capacticy_2 = sheet['Q16'].value
+        project_selling_price_2 = sheet['Q17'].value
+        project_opposites_2 = sheet['B2'].value
+        project2 = ProjectAnalysis(project_name_2,project_inflow_2,project_outflow_2,project_fixed_cost_2,project_total_cost_2,project_production_capacticy_2,project_selling_price_2,discount_rate,[project_opposites_2])
+        
+        project_list.append(project1)
+        project_list.append(project2)
+    return project_list
