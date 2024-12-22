@@ -17,6 +17,7 @@ class ProjectAnalysis:
     project_static_cycle = 0
     project_opposites = []
     distance = 100
+    variable_cost = 0
 
     def __init__(self, project_name:str, project_cash_flows_in:List,project_cash_flows_out:List
                  ,project_fixed_cost:float,project_total_cost:float,project_production_capacticy:int,project_selling_price:float,discount_rate:float,project_opposites:List[str]):
@@ -29,8 +30,8 @@ class ProjectAnalysis:
         self.project_period = project_period
         self.project_npv = npv(self.project_cash_flows,discount_rate)
         self.project_fixed_cost = project_fixed_cost
-        self.project_total_cost = project_total_cost
-        self.project_production_capacticy = project_production_capacticy
+        self.project_total_cost = project_total_cost * 10000
+        self.project_production_capacticy = project_production_capacticy * 10000
         self.project_selling_price = project_selling_price
         self.project_opposites = project_opposites
         self.distance = distance * 0.9

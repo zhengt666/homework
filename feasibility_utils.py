@@ -10,6 +10,7 @@ import os,shutil
 import tkinter as tk
 from tkinter import filedialog, messagebox
 import openpyxl
+from itertools import product
 
 
 
@@ -182,6 +183,7 @@ def calculate_break_even(project:ProjectAnalysis):
     fixed_cost, total_cost, production_capacity, selling_price = project.project_fixed_cost,project.project_total_cost,project.project_production_capacticy,project.project_selling_price
     # 计算变动成本
     variable_cost = (total_cost - fixed_cost) / production_capacity
+    project.variable_cost = variable_cost
     
     # 计算盈亏平衡产量
     break_even_quantity = fixed_cost / (selling_price - variable_cost)
@@ -199,10 +201,16 @@ def calculate_break_even(project:ProjectAnalysis):
     safety_margin = 1 - (break_even_quantity / production_capacity)
 
     # 打印结果
-    print(f"盈亏平衡产量: {round(break_even_quantity,0)} 件")
-    print(f"盈亏平衡生产能力利率: {round(break_even_rate,2)}%")
-    print(f"盈亏平衡销售价格: {round(break_even_selling_price,2)} 元/件")
-    print(f"盈亏平衡单位产品变动成本: {round(break_even_variable_cost,2)} 元/件")
+    print(f"人流量: {round(break_even_quantity,0)} 人")
+    print(f"人均消费: {round(break_even_selling_price,2)} 元")
+    print(f"总固定成本: {round(fixed_cost,2)} 元")
+    print(f"单位产品变动成本: {round(variable_cost,2)} 元/件")
+    
+    
+    print(f"销售收入B=PQ= {round(selling_price*production_capacity,2)} 元")
+    print(f"总成本C=Cf+CvQ= {round(fixed_cost+variable_cost*production_capacity,2)} 元")
+    print(f"盈亏平衡点销量Q*=Cf/(P-Cv) {round(break_even_quantity,2)} 人")
+    print(f"盈亏平衡生产能力利用率: {round(break_even_rate,2)} %")
     print(f"经营安全率: {safety_margin*100}%")
     
     if safety_margin > 0.5:
@@ -215,7 +223,8 @@ def calculate_break_even(project:ProjectAnalysis):
         "break_even_rate": break_even_rate,
         "break_even_selling_price": break_even_selling_price,
         "break_even_variable_cost": break_even_variable_cost,
-        "safety_margin": safety_margin
+        "safety_margin": safety_margin,
+        "variable_cost": variable_cost
     } 
 
 # 计算动态回收期
@@ -242,6 +251,31 @@ def dynamic_payback_period(project:ProjectAnalysis, discount_rate):
     if cumulative_npv < 0:
         return None
     print(f"计算 project:{project.project_name} 的动态回收期为: {payback_period}")
+    return payback_period
+
+# 计算动态回收期
+def dynamic_payback_period_by_cash_flows(cash_flows, discount_rate):
+    """
+    计算动态回收期。
+    
+    :param initial_investment: 初始投资额
+    :param cash_flows: 现金流列表，按时间序列排列
+    :param discount_rate: 折现率
+    :return: 动态回收期
+    """
+    cumulative_npv = 0
+    payback_period = 0
+    for i, cash_flow in enumerate(cash_flows):
+        cash_year = cash_flow / (1 + discount_rate) ** (i)
+        cumulative_npv += cash_year
+        if cumulative_npv >= 0:
+            remaining_year = round(1 - (cumulative_npv / cash_year),2)
+            payback_period = i - 1 + remaining_year
+            break
+    
+    # 如果投资没有回收，则返回None
+    if cumulative_npv < 0:
+        return None
     return payback_period
 
 
@@ -420,13 +454,16 @@ def get_base_data_openpyxl(file_path):
 def get_projects(file_path:str,discount_rate:float):
     workbook = openpyxl.load_workbook(file_path, data_only=True)
     all_sheets_except_first = workbook.worksheets[1:]
-    project_list = []
+    project_list:List[ProjectAnalysis] = []
+    project_opposites:List[List[ProjectAnalysis]] = []
+    project_opposites_name = []
     for sheet in all_sheets_except_first:
         print(f"读取sheet: {sheet.title}")
         project_name_1 = sheet['B1'].value
         project_proid_1 = sheet['B2'].value
         project_inflow_1 = []
         project_outflow_1 = []
+        project_opposite = []
         for col in range(2, 3+project_proid_1):  # 对应第二列到第七列，在openpyxl中列索引从1开始
             in_cell = sheet.cell(row=5, column=col)
             project_inflow_1.append(in_cell.value)
@@ -457,4 +494,78 @@ def get_projects(file_path:str,discount_rate:float):
         
         project_list.append(project1)
         project_list.append(project2)
-    return project_list
+        project_opposite.append(project1)
+        project_opposite.append(project2)
+        project_opposites.append(project_opposite)
+        project_opposites_name.append(sheet.title)
+    return project_list,project_opposites,project_opposites_name
+
+
+def dynamic_payback_period_difference(scheme1_cash_flows, scheme2_cash_flows, discount_rate):
+    """
+    计算两个方案的差额投资动态回收期
+
+    参数:
+    scheme1_cash_flows (list 或 np.array): 方案1各期的现金流量序列，例如[初始投资（第0期现金流量）, 第1期现金流量, 第2期现金流量,...]
+    scheme2_cash_flows (list 或 np.array): 方案2各期的现金流量序列，例如[初始投资（第0期现金流量）, 第1期现金流量, 第2期现金流量,...]
+    discount_rate (float): 折现率，例如0.1表示10%
+
+    返回:
+    float: 差额投资动态回收期（年数，如果回收期不是整数年会返回小数表示），若在给定现金流情况下无法收回投资则返回None
+    """
+    # 确保两个方案的现金流量期数一致
+    if len(scheme1_cash_flows)!= len(scheme2_cash_flows):
+        raise ValueError("两个方案的现金流量期数不一致，请检查输入数据。")
+
+    net_cash_flows = np.array([scheme1_cash_flows[i] - scheme2_cash_flows[i] for i in range(len(scheme1_cash_flows))])
+    return dynamic_payback_period_by_cash_flows(net_cash_flows,discount_rate)
+
+def break_even_analysis_extended(fixed_costs, variable_cost_per_unit, selling_price_per_unit, max_units=1000):
+    """
+    扩展的盈亏平衡分析，包含不同产量下利润情况分析及可视化展示
+
+    参数:
+    fixed_costs (float): 固定成本，即不随产量变化的成本（例如设备租金、厂房租金等）
+    variable_cost_per_unit (float): 单位可变成本，即每生产一单位产品需要额外花费的成本（例如原材料、人工等按单位计算的成本）
+    selling_price_per_unit (float): 单位产品售价
+    max_units (int): 分析的最大产量范围，默认值为1000
+
+    返回:
+    float: 盈亏平衡点的产量，即达到收支平衡时需要销售的产品数量，若售价小于等于单位可变成本则返回None表示无法实现盈利
+    """
+    if selling_price_per_unit <= variable_cost_per_unit:
+        return None
+
+    # 计算盈亏平衡点
+    break_even_point = fixed_costs / (selling_price_per_unit - variable_cost_per_unit)
+
+    # 生成不同产量下的成本、收入和利润数据
+    units = range(0, max_units + 1)
+    total_costs = [fixed_costs + variable_cost_per_unit * unit for unit in units]
+    total_revenues = [selling_price_per_unit * unit for unit in units]
+    profits = [revenue - cost for revenue, cost in zip(total_revenues, total_costs)]
+
+    # 绘制成本、收入和利润曲线
+    plt.plot(units, total_costs, label='总成本')
+    plt.plot(units, total_revenues, label='总收入')
+    plt.plot(units, profits, label='总利润')
+    plt.axvline(x=break_even_point, color='r', linestyle='--', label='盈亏平衡点')
+    plt.xlabel('产量（单位）')
+    plt.ylabel('金额')
+    plt.title('盈亏平衡分析')
+    plt.legend()
+    plt.show()
+
+    return break_even_point
+
+def generate_combinations(elements: List[ProjectAnalysis]):
+    """
+    使用itertools.product生成给定元素的所有组合（包含元素选或不选的情况）
+    :param elements: 输入的元素列表
+    :return: 生成的所有组合的列表，每个组合也是一个列表
+    """
+    all_combinations: List[ProjectAnalysis] = []
+    for combination in product([True, False], repeat=len(elements)):
+        current_combination = [elem for elem, included in zip(elements, combination) if included]
+        all_combinations.append(current_combination)
+    return all_combinations
