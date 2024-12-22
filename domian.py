@@ -7,6 +7,7 @@ class ProjectAnalysis:
     project_period = 0
     project_invest = 0
     project_npv = 0
+    project_irr = 0
     project_fixed_cost = 0
     project_total_cost = 0
     project_production_capacticy = 0

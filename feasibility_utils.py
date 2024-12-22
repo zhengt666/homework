@@ -12,6 +12,12 @@ from tkinter import filedialog, messagebox
 import openpyxl
 from itertools import product
 
+import logging
+# 配置logging模块，设置日志级别、格式以及输出的文件名
+logging.basicConfig(level=logging.INFO,
+                    format='%(asctime)s - %(levelname)s - %(message)s',
+                    filename='./out/output.log',
+                    filemode='w')
 
 
 def is_float(s):
@@ -35,29 +41,28 @@ def upload_excel_files():
         shutil.rmtree(upload_dir)
         os.makedirs(upload_dir)
     # 弹出文件选择对话框，允许用户选择多个文件
-    file_paths = filedialog.askopenfilename(
+    file_path = filedialog.askopenfilename(
         title="选择Excel文件",
         filetypes=[("Excel files", "*.xlsx *.xls")]
     )
     
     # 如果没有选择文件，则退出函数
-    if not file_paths:
+    if not file_path:
         exit()
     
-    # 遍历选择的文件并上传到上传目录
-    for file_path in file_paths:
-        # 构造完整的保存路径
-        save_path = os.path.join(upload_dir, os.path.basename(file_path))
+    fixed_file_name = "uploaded_file.xlsx"
+    # 构造完整的保存路径
+    save_path = os.path.join(upload_dir, fixed_file_name)
         
-        # 复制文件到上传目录
-        try:
-            with open(file_path, 'rb') as f_src, open(save_path, 'wb') as f_dst:
+    # 复制文件到上传目录
+    try:
+        with open(file_path, 'rb') as f_src, open(save_path, 'wb') as f_dst:
                 f_dst.write(f_src.read())
             
-            messagebox.showinfo("上传成功", f"文件 {os.path.basename(file_path)} 已成功上传到 {save_path}")
+        messagebox.showinfo("上传成功", f"文件 {os.path.basename(file_path)} 已成功上传到 {save_path}")
         
-        except Exception as e:
-            messagebox.showerror("上传失败", f"无法上传文件 {os.path.basename(file_path)}: {e}")
+    except Exception as e:
+        messagebox.showerror("上传失败", f"无法上传文件 {os.path.basename(file_path)}: {e}")
 
 
 def get_os_front():
@@ -71,18 +76,19 @@ def get_os_front():
 
 # npv 可行性分析
 def feasibility_check(project:ProjectAnalysis, discount_rate):
-    print(f"project {project.project_name} 可行性分析")
+    logging.info(f"project {project.project_name} 可行性分析")
     npv_value = npv(project.project_cash_flows, discount_rate)
-    print(f"Net Present Value (NPV): {npv_value}")
+    logging.info(f"Net Present Value (NPV): {npv_value}")
     irr_value = irr(project.project_cash_flows)
-    print(f"Internal Rate of Return (IRR): {irr_value * 100:.2f}%")
-
+    logging.info(f"Internal Rate of Return (IRR): {irr_value * 100:.2f}%")
+    project.project_irr = irr_value
+    project.project_npv = npv_value
     # 判断方案是否可行
     if npv_value > 0 and irr_value > discount_rate:
-        print(f"project {project.project_name} 方案可行。")
+        logging.info(f"project {project.project_name} 方案可行。")
         return True
     else:
-        print(f"project {project.project_name} 方案不可行。")
+        logging.info(f"project {project.project_name} 方案不可行。")
         return False
 
 # 计算净现值
@@ -90,7 +96,6 @@ def npv(cash_flows, discount_rate):
     n = len(cash_flows)
     for j in range(n):
         a = round(cash_flows[j] / (1 + discount_rate)**j,2)
-        print(f"npv 第{j}年 {a}")
     return round(sum(round(cash_flows[i] / (1 + discount_rate)**i,2) for i in range(n)),2)
 
 
@@ -114,7 +119,7 @@ def calc_rank(project_list: List[ProjectAnalysis], rate) -> List[ProjectAnalysis
         return project_list
     for project in project_list:
         calc_irr = irr(project.project_cash_flows)
-        print(f"Project {project.project_name} IRR: {calc_irr * 100:.2f}%")
+        logging.info(f"Project {project.project_name} IRR: {calc_irr * 100:.2f}%")
 
     # 两两组合对比
     combinations = list(itertools.combinations(project_list, 2))
@@ -122,9 +127,9 @@ def calc_rank(project_list: List[ProjectAnalysis], rate) -> List[ProjectAnalysis
     diff_irrs = []
     # 打印结果
     for combo in combinations:
-        print(f"compare {combo[0].project_name} and {combo[1].project_name}")
+        logging.info(f"compare {combo[0].project_name} and {combo[1].project_name}")
         calc_diff_irr = diff_irr(combo[0].project_cash_flows, combo[1].project_cash_flows)
-        print(f"Difference IRR between Project {combo[0].project_name} and Project {combo[1].project_name}: {calc_diff_irr * 100:.2f}%")
+        logging.info(f"Difference IRR between Project {combo[0].project_name} and Project {combo[1].project_name}: {calc_diff_irr * 100:.2f}%")
         if calc_diff_irr < rate:
             diff_irrs.append((combo[1],combo[0]))
         else:
@@ -146,7 +151,7 @@ def calc_rank(project_list: List[ProjectAnalysis], rate) -> List[ProjectAnalysis
         return sorted_projects
     except nx.NetworkXUnfeasible:
         # 如果图包含环，则拓扑排序不可行
-        print("The graph contains a cycle and cannot be topologically sorted.")
+        logging.info("The graph contains a cycle and cannot be topologically sorted.")
 
 combinations_list:List[ProjectAnalysis] = []
 
@@ -174,8 +179,8 @@ def calculate_return(project_list: List[ProjectAnalysis],total_investment):
 
 # 最优方案选择
 def calc_best_combination(project_list: List[ProjectAnalysis],total_investment:float) -> List[ProjectAnalysis]:
-    print(f"Total return of best combination: {calculate_return(project_list,total_investment)}")
-    print(f"Best combination: { ','.join([obj.project_name for obj in combinations_list])}")
+    logging.info(f"Total return of best combination: {calculate_return(project_list,total_investment)}")
+    logging.info(f"Best combination: { ','.join([obj.project_name for obj in combinations_list])}")
     return combinations_list
 
 # 计算盈亏平衡
@@ -201,22 +206,22 @@ def calculate_break_even(project:ProjectAnalysis):
     safety_margin = 1 - (break_even_quantity / production_capacity)
 
     # 打印结果
-    print(f"人流量: {round(break_even_quantity,0)} 人")
-    print(f"人均消费: {round(break_even_selling_price,2)} 元")
-    print(f"总固定成本: {round(fixed_cost,2)} 元")
-    print(f"单位产品变动成本: {round(variable_cost,2)} 元/件")
+    logging.info(f"人流量: {round(break_even_quantity,0)} 人")
+    logging.info(f"人均消费: {round(break_even_selling_price,2)} 元")
+    logging.info(f"总固定成本: {round(fixed_cost,2)} 元")
+    logging.info(f"单位产品变动成本: {round(variable_cost,2)} 元/件")
     
     
-    print(f"销售收入B=PQ= {round(selling_price*production_capacity,2)} 元")
-    print(f"总成本C=Cf+CvQ= {round(fixed_cost+variable_cost*production_capacity,2)} 元")
-    print(f"盈亏平衡点销量Q*=Cf/(P-Cv) {round(break_even_quantity,2)} 人")
-    print(f"盈亏平衡生产能力利用率: {round(break_even_rate,2)} %")
-    print(f"经营安全率: {safety_margin*100}%")
+    logging.info(f"销售收入B=PQ= {round(selling_price*production_capacity,2)} 元")
+    logging.info(f"总成本C=Cf+CvQ= {round(fixed_cost+variable_cost*production_capacity,2)} 元")
+    logging.info(f"盈亏平衡点销量Q*=Cf/(P-Cv) {round(break_even_quantity,2)} 人")
+    logging.info(f"盈亏平衡生产能力利用率: {round(break_even_rate,2)} %")
+    logging.info(f"经营安全率: {safety_margin*100}%")
     
     if safety_margin > 0.5:
-        print ("经营安全")
+        logging.info ("经营安全")
     else:
-        print ("经营不安全")
+        logging.info ("经营不安全")
     
     return {
         "break_even_quantity": break_even_quantity,
@@ -250,7 +255,7 @@ def dynamic_payback_period(project:ProjectAnalysis, discount_rate):
     # 如果投资没有回收，则返回None
     if cumulative_npv < 0:
         return None
-    print(f"计算 project:{project.project_name} 的动态回收期为: {payback_period}")
+    logging.info(f"计算 project:{project.project_name} 的动态回收期为: {payback_period}")
     return payback_period
 
 # 计算动态回收期
@@ -302,7 +307,7 @@ def static_payback_period(project:ProjectAnalysis):
     # 如果投资没有回收，则返回None
     if cumulative < 0:
         return None
-    print(f"计算 project:{project.project_name} 的静态回收期为: {payback_period}")
+    logging.info(f"计算 project:{project.project_name} 的静态回收期为: {payback_period}")
     return payback_period
 
 # 绘制现金流量图
@@ -321,7 +326,7 @@ def draw_cash_flow(project:ProjectAnalysis):
 
     # 设置初始变量值
     distance = project.distance
-    print(f"distance:{distance}")
+    logging.info(f"distance:{distance}")
     negative_array = [-x for x in project.project_cash_flows_out]
     cash_flow_array : List[List[int]] = [project.project_cash_flows_in,negative_array]
 
@@ -441,14 +446,14 @@ def get_base_data_openpyxl(file_path):
         first_sheet = workbook.worksheets[0]
 
         b1_data = first_sheet['B1'].value
-        b2_data = first_sheet['B2'].value
+        b2_data = first_sheet['B2'].value * 10000
 
         return b1_data, b2_data
     except FileNotFoundError:
-        print(f"文件 {file_path} 未找到，请检查文件路径是否正确。")
+        logging.info(f"文件 {file_path} 未找到，请检查文件路径是否正确。")
         return None, None
     except Exception as e:
-        print(f"出现其他错误: {str(e)}")
+        logging.info(f"出现其他错误: {str(e)}")
         return None, None
 
 def get_projects(file_path:str,discount_rate:float):
@@ -458,7 +463,7 @@ def get_projects(file_path:str,discount_rate:float):
     project_opposites:List[List[ProjectAnalysis]] = []
     project_opposites_name = []
     for sheet in all_sheets_except_first:
-        print(f"读取sheet: {sheet.title}")
+        logging.info(f"读取sheet: {sheet.title}")
         project_name_1 = sheet['B1'].value
         project_proid_1 = sheet['B2'].value
         project_inflow_1 = []
@@ -564,7 +569,7 @@ def generate_combinations(elements: List[ProjectAnalysis]):
     :param elements: 输入的元素列表
     :return: 生成的所有组合的列表，每个组合也是一个列表
     """
-    all_combinations: List[ProjectAnalysis] = []
+    all_combinations: List[List[ProjectAnalysis]] = []
     for combination in product([True, False], repeat=len(elements)):
         current_combination = [elem for elem, included in zip(elements, combination) if included]
         all_combinations.append(current_combination)
