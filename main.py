@@ -55,21 +55,21 @@ for i in range(len(project_opposites)):
     logging.info(f"根据净现值,方案{best_npv_project}更优")
     rank_list = calc_rank(project_opposites[i],discount_rate)
     logging.info(f"根据差额IRR,方案{project_opposites_name[i]}排列大小店优先级,得出方案{rank_list[0].project_name}更优")
+
+    logging.info("根据差额投资回收期对比")
     payback_period_diff = dynamic_payback_period_difference(project_big.project_cash_flows,project_small.project_cash_flows,discount_rate)
     big_payback_period =project_big.project_dynamic_cycle if  project_big.project_dynamic_cycle > project_small.project_dynamic_cycle else project_small.project_dynamic_cycle
-    big_period_project = project_big.project_name if  project_big.project_dynamic_cycle > project_small.project_dynamic_cycle else project_small.project_name
-    small_period_project = project_small.project_name if  project_big.project_dynamic_cycle > project_small.project_dynamic_cycle else project_big.project_name
-   
+
     best_period_project = ''
-    logging.info("根据差额投资回收期对比")
     if payback_period_diff > big_payback_period:
         logging.info(f"差额投资回收期={payback_period_diff} > {big_payback_period}")
-        logging.info(f"方案{small_period_project}更优") 
-        best_period_project = small_period_project
+        logging.info(f"方案{project_small.project_name}更优") 
+        best_period_project = project_small.project_name
     else:
         logging.info(f"差额投资回收期={payback_period_diff} <= {big_payback_period}")
-        logging.info(f"方案{big_period_project}更优") 
-        best_period_project = big_period_project
+        logging.info(f"方案{project_big.project_name}更优") 
+        best_period_project = project_big.project_name
+    print(f"根据差额投资回收期对比,方案{best_period_project}更优")
     arr = [best_npv_project,best_period_project,rank_list[0].project_name]
     counter = Counter(arr)
     logging.info(f"综上所述,方案{max(counter, key=counter.get)}更优")
