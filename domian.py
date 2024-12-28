@@ -30,7 +30,7 @@ class ProjectAnalysis:
         self.project_cash_flows = project_cash_flows
         self.project_period = project_period
         self.project_npv = npv(self.project_cash_flows,discount_rate)
-        self.project_fixed_cost = project_fixed_cost
+        self.project_fixed_cost = project_fixed_cost * 10000
         self.project_total_cost = project_total_cost * 10000
         self.project_production_capacticy = project_production_capacticy * 10000
         self.project_selling_price = project_selling_price

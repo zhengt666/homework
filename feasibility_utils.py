@@ -13,11 +13,13 @@ import openpyxl
 from itertools import product
 
 import logging
+# 创建一个自定义的 FileHandler 并设置编码为 UTF-8
+file_handler = logging.FileHandler('./out/output.log', mode='w', encoding='utf-8')
+file_handler.setFormatter(logging.Formatter('%(asctime)s - %(levelname)s - %(message)s'))
+ 
 # 配置logging模块，设置日志级别、格式以及输出的文件名
 logging.basicConfig(level=logging.INFO,
-                    format='%(asctime)s - %(levelname)s - %(message)s',
-                    filename='./out/output.log',
-                    filemode='w')
+                    handlers=[file_handler])
 
 
 def is_float(s):
@@ -317,6 +319,8 @@ def draw_cash_flow(project:ProjectAnalysis):
     axis_color = 'black'
     title_color = 'black'
 
+    # 清除画图
+    plt.cla()
     # 调整中文显示
     plt.rcParams['font.sans-serif'] = [get_os_front()]
     plt.rcParams['axes.unicode_minus'] = False
@@ -354,10 +358,8 @@ def draw_cash_flow(project:ProjectAnalysis):
     ax.xaxis.set_major_locator(x_major_locator)
     plt.xlim(-0.1, len(cash_flow_array[0]) + 1.4)
     plt.ylim(-15 * distance, 15 * distance)
-
-
     # 绘图
-    plt.show()
+    plt.savefig(f"./out/{project.project_name}_cashflow.png")
     
 
 # 定义净现值计算函数
@@ -384,6 +386,8 @@ def draw_single_factor(project:ProjectAnalysis,discount_rate):
     npv_B = single_factor_sensitivity_analysis('B', B, r, n, variation_range,K,B,C)
     npv_C = single_factor_sensitivity_analysis('C', C, r, n, variation_range,K,B,C)
 
+    # 清除画图
+    plt.cla()
     # 调整中文显示
     plt.rcParams['font.sans-serif'] = [get_os_front()]
     plt.rcParams['axes.unicode_minus'] = False
@@ -397,43 +401,8 @@ def draw_single_factor(project:ProjectAnalysis,discount_rate):
     plt.title(f'Single Factor Sensitivity Analysis of {project.project_name}')
     plt.legend()
     plt.grid(True)
-    plt.show()
+    plt.savefig(f"./out/{project.project_name}_single_factor.png")
     
-
-
-# 定义净现值计算函数
-def calculate_npv_multi(K, B, C, r, n, X, Y, Z):
-    return -K * (1 + X) + (B * (1 + Y) - C * (1 + Z)) * (1 - (1 + r) ** -n) / r
-
-# 绘制多因素分析
-def draw_multi_factor(project:ProjectAnalysis,discount_rate):
-    K,B,C,r,n = project.project_invest,project.project_cash_flows_in[1],project.project_cash_flows_out[1],discount_rate,project.project_period
-    # 设置变动范围
-    X_range = np.linspace(-0.2, 0.2, 100)  # 投资额变动范围 -20% 到 20%
-    Y_range = np.linspace(-0.2, 0.2, 100)  # 年销售收入变动范围 -20% 到 20%
-    Z_range = np.array([0.2, 0.1, 0, -0.1, -0.2])  # 经营成本变动范围 +20% 到 -20%
-
-    # 创建网格
-    X, Y = np.meshgrid(X_range, Y_range)
-
-    # 计算NPV
-    NPV = np.zeros_like(X)
-    for i, z in enumerate(Z_range):
-        NPV += calculate_npv_multi(K, B, C, r, n, X, Y, z) / len(Z_range)
-
-    # 绘制等高线图
-    # 调整中文显示
-    plt.rcParams['font.sans-serif'] = [get_os_front()]
-    plt.rcParams['axes.unicode_minus'] = False
-    
-    plt.figure(figsize=(10, 6))
-    contour = plt.contour(X, Y, NPV, levels=[0], colors='black')
-    plt.clabel(contour, inline=True, fontsize=8)
-    plt.xlabel('Investment Change (%)')
-    plt.ylabel('Sales Revenue Change (%)')
-    plt.title(f'Multi-Factor Sensitivity Analysis of {project.project_name}')
-    plt.grid(True)
-    plt.show()
     
 def get_base_data_openpyxl(file_path):
     """
@@ -525,41 +494,34 @@ def dynamic_payback_period_difference(scheme1_cash_flows, scheme2_cash_flows, di
     net_cash_flows = np.array([scheme1_cash_flows[i] - scheme2_cash_flows[i] for i in range(len(scheme1_cash_flows))])
     return dynamic_payback_period_by_cash_flows(net_cash_flows,discount_rate)
 
-def break_even_analysis_extended(fixed_costs, variable_cost_per_unit, selling_price_per_unit, max_units=1000):
-    """
-    扩展的盈亏平衡分析，包含不同产量下利润情况分析及可视化展示
-
-    参数:
-    fixed_costs (float): 固定成本，即不随产量变化的成本（例如设备租金、厂房租金等）
-    variable_cost_per_unit (float): 单位可变成本，即每生产一单位产品需要额外花费的成本（例如原材料、人工等按单位计算的成本）
-    selling_price_per_unit (float): 单位产品售价
-    max_units (int): 分析的最大产量范围，默认值为1000
-
-    返回:
-    float: 盈亏平衡点的产量，即达到收支平衡时需要销售的产品数量，若售价小于等于单位可变成本则返回None表示无法实现盈利
-    """
+def break_even_analysis_extended(project_name, fixed_costs, variable_cost_per_unit, selling_price_per_unit, max_units=1000):
     if selling_price_per_unit <= variable_cost_per_unit:
+        logging.info("售价小于或等于单位可变成本，无法实现盈利。")
         return None
 
-    # 计算盈亏平衡点
-    break_even_point = fixed_costs / (selling_price_per_unit - variable_cost_per_unit)
+    break_even_point = round(fixed_costs / (selling_price_per_unit - variable_cost_per_unit),2)
+    if break_even_point > max_units:
+        logging.info(f"盈亏平衡点 {break_even_point} 超出了最大分析产量 {max_units}。")
+        max_units = int(break_even_point * 1.1)  # 可选：调整最大产量以包含盈亏平衡点
 
-    # 生成不同产量下的成本、收入和利润数据
     units = range(0, max_units + 1)
     total_costs = [fixed_costs + variable_cost_per_unit * unit for unit in units]
     total_revenues = [selling_price_per_unit * unit for unit in units]
     profits = [revenue - cost for revenue, cost in zip(total_revenues, total_costs)]
-
-    # 绘制成本、收入和利润曲线
+    # 清除画图
+    plt.cla()
+    plt.figure(figsize=(10, 6))  # 设置图形大小
     plt.plot(units, total_costs, label='总成本')
     plt.plot(units, total_revenues, label='总收入')
     plt.plot(units, profits, label='总利润')
     plt.axvline(x=break_even_point, color='r', linestyle='--', label='盈亏平衡点')
     plt.xlabel('产量（单位）')
     plt.ylabel('金额')
-    plt.title('盈亏平衡分析')
+    plt.title(f'{project_name} 盈亏平衡分析, 盈亏平衡点{break_even_point}')
     plt.legend()
-    plt.show()
+    plt.grid(True)  # 添加网格线
+    plt.tight_layout()  # 自动调整子图参数, 使之填充整个图像区域
+    plt.savefig(f"./out/{project_name}_break_even_point.png")
 
     return break_even_point
 
@@ -574,3 +536,35 @@ def generate_combinations(elements: List[ProjectAnalysis]):
         current_combination = [elem for elem, included in zip(elements, combination) if included]
         all_combinations.append(current_combination)
     return all_combinations
+
+
+
+def draw_bi_factor_sensitivity(project:ProjectAnalysis, discount_rate):
+    K_base, B_base, C_base, r, n, target_NPV = project.project_invest, project.project_cash_flows_in[1], project.project_cash_flows_out[1], discount_rate, project.project_period,project.project_npv
+    
+
+    # 定义销售收入和经营成本的变化范围
+    sales_revenue_changes = np.linspace(-20, 20, 41)  # 销售收入变化百分比
+
+    # 初始化经营成本变化的数组
+    cost_changes_for_target_NPV = np.zeros(len(sales_revenue_changes))
+
+    # 计算在目标NPV下，经营成本变化与销售收入变化的关系
+    for i, sales_change in enumerate(sales_revenue_changes):
+        B = B_base * (1 + sales_change / 100)
+        # 解方程找到满足目标NPV的经营成本变化
+        if (1 - (1 + r) ** -n) / r != 0:
+            C = - (target_NPV + K_base - B * (1 - (1 + r) ** -n) / r) / ((1 - (1 + r) ** -n) / r)
+            cost_changes_for_target_NPV[i] = (C / C_base - 1) * 100
+    # 清除画图
+    plt.cla()
+    # 绘制线性关系图
+    plt.figure(figsize=(10, 6))
+    plt.plot(sales_revenue_changes, cost_changes_for_target_NPV, label=f'Target NPV {target_NPV} (10,000 yuan)', marker='o')
+
+    plt.xlabel('Sales Revenue Change (%)')
+    plt.ylabel('Operating Cost Change (%)')
+    plt.title(f'Bi-Factor Sensitivity Analysis (Linear Relationship for Target NPV) for project {project.project_name}')
+    plt.legend()
+    plt.grid(True)
+    plt.savefig(f"./out/{project.project_name}_mulit_factor.png")

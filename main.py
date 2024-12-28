@@ -1,14 +1,24 @@
 from typing import List
 import logging
 from domian import ProjectAnalysis
-from feasibility_utils import generate_combinations,break_even_analysis_extended,dynamic_payback_period_difference,get_projects,get_base_data_openpyxl,feasibility_check,calc_rank,calc_best_combination,calculate_break_even,dynamic_payback_period,draw_cash_flow,draw_single_factor,draw_multi_factor,static_payback_period
+from feasibility_utils import generate_combinations,break_even_analysis_extended,dynamic_payback_period_difference,draw_bi_factor_sensitivity,get_projects,get_base_data_openpyxl,feasibility_check,calc_rank,calculate_break_even,dynamic_payback_period,draw_cash_flow,draw_single_factor,static_payback_period
 from collections import Counter
+from feasibility_utils import upload_excel_files
+from tkinter import messagebox
 
+# 确认用户是否要批量上传
+user_confirmation = messagebox.askyesno("上传确认", "请确认是否重新上传分析材料")
+if  user_confirmation:
+    # 调用函数以上传Excel文件
+    upload_excel_files()
+
+# 创建一个自定义的 FileHandler 并设置编码为 UTF-8
+file_handler = logging.FileHandler('./out/output.log', mode='w', encoding='utf-8')
+file_handler.setFormatter(logging.Formatter('%(asctime)s - %(levelname)s - %(message)s'))
+ 
 # 配置logging模块，设置日志级别、格式以及输出的文件名
 logging.basicConfig(level=logging.INFO,
-                    format='%(asctime)s - %(levelname)s - %(message)s',
-                    filename='./out/output.log',
-                    filemode='w')
+                    handlers=[file_handler])
 
 file_path = "./projects/uploaded_file.xlsx"
 discount_rate,total_investment = get_base_data_openpyxl(file_path)
@@ -69,7 +79,7 @@ for i in range(len(project_opposites)):
         logging.info(f"差额投资回收期={payback_period_diff} <= {big_payback_period}")
         logging.info(f"方案{project_big.project_name}更优") 
         best_period_project = project_big.project_name
-    print(f"根据差额投资回收期对比,方案{best_period_project}更优")
+    logging.info(f"根据差额投资回收期对比,方案{best_period_project}更优")
     arr = [best_npv_project,best_period_project,rank_list[0].project_name]
     counter = Counter(arr)
     logging.info(f"综上所述,方案{max(counter, key=counter.get)}更优")
@@ -79,22 +89,22 @@ for i in range(len(project_opposites)):
     logging.info("盈亏平衡计算")
     logging.info(f"方案{project_big.project_name}的盈亏平衡")
     calculate_break_even(project_big)
-    break_even_analysis_extended(project_big.project_fixed_cost,project_big.variable_cost,project_big.project_selling_price,100000)
+    break_even_analysis_extended(project_big.project_name,project_big.project_fixed_cost,project_big.variable_cost,project_big.project_selling_price,100)
     
     logging.info(f"方案{project_small.project_name}的盈亏平衡")
     calculate_break_even(project_small)
-    break_even_analysis_extended(project_small.project_fixed_cost,project_small.variable_cost,project_small.project_selling_price,100000)
+    break_even_analysis_extended(project_small.project_name,project_small.project_fixed_cost,project_small.variable_cost,project_small.project_selling_price,100)
     
     logging.info("敏感性分析")
     logging.info(f"方案{project_big.project_name}的单因素分析")
     draw_single_factor(project_big,discount_rate)
     logging.info(f"方案{project_big.project_name}的多因素分析")
-    draw_multi_factor(project_big,discount_rate)
+    draw_bi_factor_sensitivity(project_big,discount_rate)
     
     logging.info(f"方案{project_small.project_name}的单因素分析")
     draw_single_factor(project_small,discount_rate)
     logging.info(f"方案{project_small.project_name}的多因素分析")
-    draw_multi_factor(project_small,discount_rate)
+    draw_bi_factor_sensitivity(project_small,discount_rate)
     
 logging.info("总方案分析")
 logging.info("互斥方案选择")
