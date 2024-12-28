@@ -12,7 +12,7 @@ project_root/
 │   └── log               # 执行与分析过程
 │
 ├── projects/             # 分析项目文件目录
-│   ├── uploaded_file.xlsx
+│   └── uploaded_file.xlsx
 │
 ├── domain.py             # 项目实体类
 ├── feasibility_utils.py  # 实现分析的具体工具类
