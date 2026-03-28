@@ -4,7 +4,7 @@
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
-        <mxCell id="L0jrDvtuUOYOOqj4bSeU-1" parent="1" style="shape=orEllipse;perimeter=ellipsePerimeter;whiteSpace=wrap;html=1;backgroundOutline=1;direction=south;fillColor=#dae8fc;strokeColor=#6c8ebf;movable=1;resizable=1;rotatable=1;deletable=1;editable=1;locked=0;connectable=1;container=0;" value="" vertex="1">
+        <mxCell id="L0jrDvtuUOYOOqj4bSeU-1" parent="1" style="shape=orEllipse;perimeter=ellipsePerimeter;whiteSpace=wrap;html=1;backgroundOutline=1;direction=south;fillColor=#dae8fc;strokeColor=#6c8ebf;movable=1;resizable=1;rotatable=1;deletable=1;editable=1;locked=0;connectable=1;container=0;" value="Z 通讯公司数字化转型&lt;div style=&quot;font-variant-numeric: normal; font-variant-east-asian: normal; font-variant-alternates: normal; font-size-adjust: none; font-language-override: normal; font-kerning: auto; font-optical-sizing: auto; font-feature-settings: normal; font-variation-settings: normal; font-variant-position: normal; font-variant-emoji: normal; font-stretch: normal; font-family: ui-sans-serif, system-ui, sans-serif, &amp;quot;Apple Color Emoji&amp;quot;, &amp;quot;Segoe UI Emoji&amp;quot;, &amp;quot;Segoe UI Symbol&amp;quot;, &amp;quot;Noto Color Emoji&amp;quot;; font-size: 16px; line-height: 24px; text-align: start; flex: 0 1 auto; flex-direction: row; justify-content: normal; align-items: normal; padding: 0px; margin: 0px; background: none 0% 0% / auto repeat scroll padding-box border-box rgba(0, 0, 0, 0);&quot;&gt;&lt;/div&gt;软件开发项目三大核心流程优化" vertex="1">
           <mxGeometry height="210" width="220" x="250" y="120" as="geometry">
             <mxRectangle height="40" width="50" x="370" y="290" as="alternateBounds" />
           </mxGeometry>
@@ -21,11 +21,23 @@
         <mxCell id="L0jrDvtuUOYOOqj4bSeU-5" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;" value="ACT" vertex="1">
           <mxGeometry height="30" width="60" x="280" y="260" as="geometry" />
         </mxCell>
-        <mxCell id="L0jrDvtuUOYOOqj4bSeU-11" parent="1" style="html=1;shadow=0;dashed=0;align=center;verticalAlign=middle;shape=mxgraph.arrows2.jumpInArrow;dy=15;dx=38;arrowHead=55;" value="" vertex="1">
-          <mxGeometry height="100" width="100" x="260" y="50" as="geometry" />
+        <mxCell id="L0jrDvtuUOYOOqj4bSeU-11" parent="1" style="html=1;shadow=0;dashed=0;align=center;verticalAlign=middle;shape=mxgraph.arrows2.jumpInArrow;dy=15;dx=38;arrowHead=55;fillColor=#d5e8d4;strokeColor=#82b366;" value="" vertex="1">
+          <mxGeometry height="100" width="100" x="230" y="70" as="geometry" />
         </mxCell>
-        <mxCell id="L0jrDvtuUOYOOqj4bSeU-12" parent="1" style="html=1;shadow=0;dashed=0;align=center;verticalAlign=middle;shape=mxgraph.arrows2.jumpInArrow;dy=15;dx=38;arrowHead=55;direction=west;" value="" vertex="1">
+        <mxCell id="L0jrDvtuUOYOOqj4bSeU-12" parent="1" style="html=1;shadow=0;dashed=0;align=center;verticalAlign=middle;shape=mxgraph.arrows2.jumpInArrow;dy=15;dx=38;arrowHead=55;direction=west;fillColor=#ffe6cc;strokeColor=#d79b00;" value="" vertex="1">
           <mxGeometry height="100" width="100" x="380" y="290" as="geometry" />
+        </mxCell>
+        <mxCell id="9XzHViD-2Df-SrS3vJJc-1" parent="1" style="text;html=1;whiteSpace=wrap;overflow=hidden;rounded=0;" value="&lt;h1 style=&quot;margin-top: 0px;&quot;&gt;计划&lt;/h1&gt;&lt;p&gt;1、鱼骨图&lt;/p&gt;&lt;p&gt;2、5Why&lt;/p&gt;&lt;p&gt;3、ECRSI分析&lt;/p&gt;&lt;p&gt;4、制定指标&lt;/p&gt;" vertex="1">
+          <mxGeometry height="150" width="180" x="134" y="30" as="geometry" />
+        </mxCell>
+        <mxCell id="9XzHViD-2Df-SrS3vJJc-2" parent="1" style="text;html=1;whiteSpace=wrap;overflow=hidden;rounded=0;" value="&lt;h1 style=&quot;margin-top: 0px;&quot;&gt;执行&lt;/h1&gt;&lt;p&gt;1、消除&lt;/p&gt;&lt;p&gt;2、合并&lt;/p&gt;&lt;p&gt;3、重排&lt;/p&gt;&lt;p&gt;4、简化&lt;/p&gt;&lt;p&gt;5、增加&lt;/p&gt;" vertex="1">
+          <mxGeometry height="170" width="180" x="496" y="30" as="geometry" />
+        </mxCell>
+        <mxCell id="9XzHViD-2Df-SrS3vJJc-3" parent="1" style="text;html=1;whiteSpace=wrap;overflow=hidden;rounded=0;" value="&lt;h1 style=&quot;margin-top: 0px;&quot;&gt;检查&lt;/h1&gt;&lt;p&gt;1、目标和基线对比&lt;/p&gt;&lt;p&gt;2、量化对比&lt;/p&gt;" vertex="1">
+          <mxGeometry height="120" width="180" x="500" y="270" as="geometry" />
+        </mxCell>
+        <mxCell id="9XzHViD-2Df-SrS3vJJc-4" parent="1" style="text;html=1;whiteSpace=wrap;overflow=hidden;rounded=0;" value="&lt;h1 style=&quot;margin-top: 0px;&quot;&gt;处理&lt;/h1&gt;&lt;p&gt;1、SOP固化&lt;/p&gt;&lt;p&gt;2、文档更新&lt;/p&gt;&lt;p&gt;3、经验沉淀&lt;/p&gt;&lt;p&gt;4、开启下一轮PDCA&lt;/p&gt;" vertex="1">
+          <mxGeometry height="160" width="180" x="140" y="270" as="geometry" />
         </mxCell>
       </root>
     </mxGraphModel>
