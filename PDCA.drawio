@@ -1,0 +1,33 @@
+<mxfile host="app.diagrams.net" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36 Edg/145.0.0.0" version="29.6.6">
+  <diagram name="第 1 页" id="ybbsAiBvdBPhmASqVICB">
+    <mxGraphModel dx="938" dy="626" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="L0jrDvtuUOYOOqj4bSeU-1" parent="1" style="shape=orEllipse;perimeter=ellipsePerimeter;whiteSpace=wrap;html=1;backgroundOutline=1;direction=south;fillColor=#dae8fc;strokeColor=#6c8ebf;movable=1;resizable=1;rotatable=1;deletable=1;editable=1;locked=0;connectable=1;container=0;" value="" vertex="1">
+          <mxGeometry height="210" width="220" x="250" y="120" as="geometry">
+            <mxRectangle height="40" width="50" x="370" y="290" as="alternateBounds" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="L0jrDvtuUOYOOqj4bSeU-2" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;" value="PLAN" vertex="1">
+          <mxGeometry height="30" width="60" x="280" y="170" as="geometry" />
+        </mxCell>
+        <mxCell id="L0jrDvtuUOYOOqj4bSeU-3" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;" value="DO" vertex="1">
+          <mxGeometry height="30" width="60" x="380" y="170" as="geometry" />
+        </mxCell>
+        <mxCell id="L0jrDvtuUOYOOqj4bSeU-4" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;" value="CHECK" vertex="1">
+          <mxGeometry height="30" width="60" x="381" y="260" as="geometry" />
+        </mxCell>
+        <mxCell id="L0jrDvtuUOYOOqj4bSeU-5" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;" value="ACT" vertex="1">
+          <mxGeometry height="30" width="60" x="280" y="260" as="geometry" />
+        </mxCell>
+        <mxCell id="L0jrDvtuUOYOOqj4bSeU-11" parent="1" style="html=1;shadow=0;dashed=0;align=center;verticalAlign=middle;shape=mxgraph.arrows2.jumpInArrow;dy=15;dx=38;arrowHead=55;" value="" vertex="1">
+          <mxGeometry height="100" width="100" x="260" y="50" as="geometry" />
+        </mxCell>
+        <mxCell id="L0jrDvtuUOYOOqj4bSeU-12" parent="1" style="html=1;shadow=0;dashed=0;align=center;verticalAlign=middle;shape=mxgraph.arrows2.jumpInArrow;dy=15;dx=38;arrowHead=55;direction=west;" value="" vertex="1">
+          <mxGeometry height="100" width="100" x="380" y="290" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
