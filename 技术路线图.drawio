@@ -1,9 +1,36 @@
 <mxfile host="app.diagrams.net">
   <diagram name="第 1 页" id="mdInWYnI2v2BcC9t4VcO">
-    <mxGraphModel>
+    <mxGraphModel dx="1406" dy="746" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
+        <mxCell id="WvUc36W9qTxbWmOtRNh3-1" parent="1" style="rounded=0;whiteSpace=wrap;html=1;" value="&lt;font style=&quot;&quot;&gt;&lt;b style=&quot;&quot;&gt;&lt;span lang=&quot;EN-US&quot; style=&quot;font-family: &amp;quot;Times New Roman&amp;quot;, serif;&quot;&gt;Z&lt;/span&gt;&lt;span style=&quot;font-family: 黑体;&quot;&gt;通讯公司软件开发类项目管理流程优化研究&lt;/span&gt;&lt;/b&gt;&lt;/font&gt;" vertex="1">
+          <mxGeometry height="30" width="340" x="240" y="10" as="geometry" />
+        </mxCell>
+        <mxCell id="WvUc36W9qTxbWmOtRNh3-2" parent="1" style="rounded=0;whiteSpace=wrap;html=1;" value="&lt;b&gt;研究思路&lt;/b&gt;" vertex="1">
+          <mxGeometry height="30" width="110" x="80" y="10" as="geometry" />
+        </mxCell>
+        <mxCell id="WvUc36W9qTxbWmOtRNh3-3" parent="1" style="rounded=0;whiteSpace=wrap;html=1;" value="&lt;b&gt;研究方法&lt;/b&gt;" vertex="1">
+          <mxGeometry height="30" width="110" x="630" y="10" as="geometry" />
+        </mxCell>
+        <mxCell id="WvUc36W9qTxbWmOtRNh3-4" parent="1" style="rounded=0;whiteSpace=wrap;html=1;" value="问题识别" vertex="1">
+          <mxGeometry height="30" width="110" x="80" y="100" as="geometry" />
+        </mxCell>
+        <mxCell id="WvUc36W9qTxbWmOtRNh3-5" parent="1" style="rounded=0;whiteSpace=wrap;html=1;" value="问题识别" vertex="1">
+          <mxGeometry height="30" width="110" x="630" y="100" as="geometry" />
+        </mxCell>
+        <mxCell id="WvUc36W9qTxbWmOtRNh3-6" parent="1" style="rounded=0;whiteSpace=wrap;html=1;" value="问题分析" vertex="1">
+          <mxGeometry height="30" width="110" x="80" y="260" as="geometry" />
+        </mxCell>
+        <mxCell id="WvUc36W9qTxbWmOtRNh3-7" parent="1" style="rounded=0;whiteSpace=wrap;html=1;" value="理论研究" vertex="1">
+          <mxGeometry height="30" width="110" x="80" y="420" as="geometry" />
+        </mxCell>
+        <mxCell id="WvUc36W9qTxbWmOtRNh3-8" parent="1" style="rounded=0;whiteSpace=wrap;html=1;" value="解决问题" vertex="1">
+          <mxGeometry height="30" width="110" x="80" y="585" as="geometry" />
+        </mxCell>
+        <mxCell id="WvUc36W9qTxbWmOtRNh3-9" parent="1" style="rounded=0;whiteSpace=wrap;html=1;" value="结果总结" vertex="1">
+          <mxGeometry height="30" width="110" x="80" y="710" as="geometry" />
+        </mxCell>
       </root>
     </mxGraphModel>
   </diagram>
