@@ -8,28 +8,48 @@
           <mxGeometry height="30" width="340" x="240" y="10" as="geometry" />
         </mxCell>
         <mxCell id="WvUc36W9qTxbWmOtRNh3-2" parent="1" style="rounded=0;whiteSpace=wrap;html=1;" value="&lt;b&gt;研究思路&lt;/b&gt;" vertex="1">
-          <mxGeometry height="30" width="110" x="80" y="10" as="geometry" />
+          <mxGeometry height="30" width="70" x="80" y="10" as="geometry" />
         </mxCell>
         <mxCell id="WvUc36W9qTxbWmOtRNh3-3" parent="1" style="rounded=0;whiteSpace=wrap;html=1;" value="&lt;b&gt;研究方法&lt;/b&gt;" vertex="1">
-          <mxGeometry height="30" width="110" x="630" y="10" as="geometry" />
+          <mxGeometry height="30" width="80" x="660" y="10" as="geometry" />
         </mxCell>
         <mxCell id="WvUc36W9qTxbWmOtRNh3-4" parent="1" style="rounded=0;whiteSpace=wrap;html=1;" value="问题识别" vertex="1">
-          <mxGeometry height="30" width="110" x="80" y="100" as="geometry" />
+          <mxGeometry height="30" width="70" x="80" y="100" as="geometry" />
         </mxCell>
-        <mxCell id="WvUc36W9qTxbWmOtRNh3-5" parent="1" style="rounded=0;whiteSpace=wrap;html=1;" value="问题识别" vertex="1">
-          <mxGeometry height="30" width="110" x="630" y="100" as="geometry" />
+        <mxCell id="WvUc36W9qTxbWmOtRNh3-5" parent="1" style="rounded=0;whiteSpace=wrap;html=1;" value="案例研究法" vertex="1">
+          <mxGeometry height="30" width="80" x="660" y="100" as="geometry" />
         </mxCell>
         <mxCell id="WvUc36W9qTxbWmOtRNh3-6" parent="1" style="rounded=0;whiteSpace=wrap;html=1;" value="问题分析" vertex="1">
-          <mxGeometry height="30" width="110" x="80" y="260" as="geometry" />
+          <mxGeometry height="30" width="70" x="80" y="260" as="geometry" />
         </mxCell>
         <mxCell id="WvUc36W9qTxbWmOtRNh3-7" parent="1" style="rounded=0;whiteSpace=wrap;html=1;" value="理论研究" vertex="1">
-          <mxGeometry height="30" width="110" x="80" y="420" as="geometry" />
+          <mxGeometry height="30" width="70" x="80" y="420" as="geometry" />
         </mxCell>
         <mxCell id="WvUc36W9qTxbWmOtRNh3-8" parent="1" style="rounded=0;whiteSpace=wrap;html=1;" value="解决问题" vertex="1">
-          <mxGeometry height="30" width="110" x="80" y="585" as="geometry" />
+          <mxGeometry height="30" width="70" x="80" y="585" as="geometry" />
         </mxCell>
         <mxCell id="WvUc36W9qTxbWmOtRNh3-9" parent="1" style="rounded=0;whiteSpace=wrap;html=1;" value="结果总结" vertex="1">
-          <mxGeometry height="30" width="110" x="80" y="710" as="geometry" />
+          <mxGeometry height="30" width="70" x="80" y="710" as="geometry" />
+        </mxCell>
+        <mxCell id="WvUc36W9qTxbWmOtRNh3-11" parent="1" style="swimlane;whiteSpace=wrap;html=1;startSize=23;container=0;dropTarget=1;collapsible=0;expand=1;backgroundOutline=0;movable=1;resizable=1;rotatable=1;cloneable=1;deletable=1;pointerEvents=1;fixedHeader=0;fillColor=none;swimlaneLine=0;" value="&lt;span style=&quot;font-weight: normal;&quot;&gt;绪论&lt;/span&gt;" vertex="1">
+          <mxGeometry height="80" width="340" x="240" y="90" as="geometry">
+            <mxRectangle height="30" width="140" x="280" y="250" as="alternateBounds" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="WvUc36W9qTxbWmOtRNh3-18" edge="1" parent="WvUc36W9qTxbWmOtRNh3-11" source="WvUc36W9qTxbWmOtRNh3-13" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;fontFamily=Helvetica;fontSize=12;fontColor=default;fontStyle=1;" target="WvUc36W9qTxbWmOtRNh3-16" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="WvUc36W9qTxbWmOtRNh3-13" parent="WvUc36W9qTxbWmOtRNh3-11" style="rounded=0;whiteSpace=wrap;html=1;" value="研究背景" vertex="1">
+          <mxGeometry height="30" width="70" x="10" y="30" as="geometry" />
+        </mxCell>
+        <mxCell id="WvUc36W9qTxbWmOtRNh3-19" edge="1" parent="WvUc36W9qTxbWmOtRNh3-11" source="WvUc36W9qTxbWmOtRNh3-16" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;fontFamily=Helvetica;fontSize=12;fontColor=default;fontStyle=1;" target="WvUc36W9qTxbWmOtRNh3-17" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="WvUc36W9qTxbWmOtRNh3-16" parent="WvUc36W9qTxbWmOtRNh3-11" style="rounded=0;whiteSpace=wrap;html=1;" value="研究问题" vertex="1">
+          <mxGeometry height="30" width="70" x="137" y="30" as="geometry" />
+        </mxCell>
+        <mxCell id="WvUc36W9qTxbWmOtRNh3-17" parent="WvUc36W9qTxbWmOtRNh3-11" style="rounded=0;whiteSpace=wrap;html=1;" value="研究意义" vertex="1">
+          <mxGeometry height="30" width="70" x="260" y="30" as="geometry" />
         </mxCell>
       </root>
     </mxGraphModel>
