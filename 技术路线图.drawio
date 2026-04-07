@@ -20,7 +20,7 @@
           <mxGeometry height="30" width="80" x="660" y="100" as="geometry" />
         </mxCell>
         <mxCell id="WvUc36W9qTxbWmOtRNh3-6" parent="1" style="rounded=0;whiteSpace=wrap;html=1;" value="提出问题" vertex="1">
-          <mxGeometry height="30" width="70" x="80" y="260" as="geometry" />
+          <mxGeometry height="30" width="70" x="80" y="270" as="geometry" />
         </mxCell>
         <mxCell id="WvUc36W9qTxbWmOtRNh3-7" parent="1" style="rounded=0;whiteSpace=wrap;html=1;" value="分析问题" vertex="1">
           <mxGeometry height="30" width="70" x="80" y="420" as="geometry" />
@@ -67,7 +67,7 @@
           <mxGeometry height="30" width="70" x="80" y="490" as="geometry" />
         </mxCell>
         <mxCell id="WvUc36W9qTxbWmOtRNh3-27" parent="1" style="rounded=0;whiteSpace=wrap;html=1;" value="案例研究法&lt;div&gt;统计分析法&lt;/div&gt;" vertex="1">
-          <mxGeometry height="30" width="80" x="660" y="260" as="geometry" />
+          <mxGeometry height="30" width="80" x="660" y="270" as="geometry" />
         </mxCell>
         <mxCell id="WvUc36W9qTxbWmOtRNh3-39" parent="1" style="swimlane;whiteSpace=wrap;html=1;startSize=23;container=0;dropTarget=1;collapsible=0;expand=1;backgroundOutline=0;movable=1;resizable=1;rotatable=1;cloneable=1;deletable=1;pointerEvents=1;fixedHeader=0;fillColor=none;swimlaneLine=0;" value="" vertex="1">
           <mxGeometry height="190" width="340" x="244" y="270" as="geometry">
