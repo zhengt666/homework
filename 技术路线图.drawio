@@ -1,6 +1,6 @@
 <mxfile host="app.diagrams.net">
   <diagram name="第 1 页" id="mdInWYnI2v2BcC9t4VcO">
-    <mxGraphModel dx="1654" dy="878" grid="0" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+    <mxGraphModel dx="804" dy="876" grid="0" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
@@ -176,12 +176,12 @@
             <mxGeometry height="200" width="30" x="183" y="74" as="geometry" />
           </mxCell>
         </object>
-        <object label="确定三大核心流程问题：&lt;div&gt;项目启动阶段流程，&lt;/div&gt;&lt;div&gt;需求管理流程，&lt;/div&gt;&lt;div&gt;变更控制流程&lt;/div&gt;" id="g4y9v7tZT8X-utRCgkFI-47">
+        <object label="确定两大核心流程问题：&lt;div&gt;需求管理流程，&lt;/div&gt;&lt;div&gt;变更控制流程&lt;/div&gt;" id="g4y9v7tZT8X-utRCgkFI-47">
           <mxCell parent="WvUc36W9qTxbWmOtRNh3-55" style="rounded=0;whiteSpace=wrap;html=1;direction=south;textDirection=vertical-lr;" vertex="1">
             <mxGeometry height="200" width="60" x="250" y="74" as="geometry" />
           </mxCell>
         </object>
-        <object label="三大核心问题描述与5Why分析" id="g4y9v7tZT8X-utRCgkFI-48">
+        <object label="两大核心问题描述与5Why分析" id="g4y9v7tZT8X-utRCgkFI-48">
           <mxCell parent="WvUc36W9qTxbWmOtRNh3-55" style="rounded=0;whiteSpace=wrap;html=1;direction=west;flipH=1;legacyAnchorPoints=0;flipV=1;" vertex="1">
             <mxGeometry height="30" width="314" x="13" y="320" as="geometry" />
           </mxCell>
@@ -221,14 +221,11 @@
         <mxCell id="g4y9v7tZT8X-utRCgkFI-60" parent="g4y9v7tZT8X-utRCgkFI-66" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontColor=#333333;" value="" vertex="1">
           <mxGeometry height="225" width="319" as="geometry" />
         </mxCell>
-        <mxCell id="g4y9v7tZT8X-utRCgkFI-61" parent="g4y9v7tZT8X-utRCgkFI-66" style="rounded=0;whiteSpace=wrap;html=1;direction=south;textDirection=vertical-lr;" value="项目启动阶段流程优化方案" vertex="1">
-          <mxGeometry height="200" width="30" x="56" y="11" as="geometry" />
-        </mxCell>
         <mxCell id="g4y9v7tZT8X-utRCgkFI-62" parent="g4y9v7tZT8X-utRCgkFI-66" style="rounded=0;whiteSpace=wrap;html=1;direction=south;textDirection=vertical-lr;" value="需求管理流程优化方案" vertex="1">
-          <mxGeometry height="200" width="30" x="144.5" y="10.5" as="geometry" />
+          <mxGeometry height="200" width="30" x="100" y="11" as="geometry" />
         </mxCell>
         <mxCell id="g4y9v7tZT8X-utRCgkFI-63" parent="g4y9v7tZT8X-utRCgkFI-66" style="rounded=0;whiteSpace=wrap;html=1;direction=south;textDirection=vertical-lr;" value="变更控制流程优化方案" vertex="1">
-          <mxGeometry height="200" width="30" x="233" y="11" as="geometry" />
+          <mxGeometry height="200" width="30" x="192" y="11" as="geometry" />
         </mxCell>
         <mxCell id="g4y9v7tZT8X-utRCgkFI-70" edge="1" parent="g4y9v7tZT8X-utRCgkFI-2" source="g4y9v7tZT8X-utRCgkFI-60" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" target="g4y9v7tZT8X-utRCgkFI-64">
           <mxGeometry relative="1" as="geometry" />
@@ -324,16 +321,13 @@
           <mxGeometry height="150" width="319" as="geometry" />
         </mxCell>
         <mxCell id="g4y9v7tZT8X-utRCgkFI-123" parent="g4y9v7tZT8X-utRCgkFI-121" style="rounded=0;whiteSpace=wrap;html=1;direction=south;textDirection=vertical-lr;" value="延期率改善分析" vertex="1">
-          <mxGeometry height="129" width="30" x="28" y="11" as="geometry" />
+          <mxGeometry height="129" width="30" x="54" y="11" as="geometry" />
         </mxCell>
         <mxCell id="g4y9v7tZT8X-utRCgkFI-124" parent="g4y9v7tZT8X-utRCgkFI-121" style="rounded=0;whiteSpace=wrap;html=1;direction=south;textDirection=vertical-lr;" value="一次需求通过率分析" vertex="1">
-          <mxGeometry height="129.5" width="30" x="180" y="10.5" as="geometry" />
+          <mxGeometry height="129.5" width="30" x="144" y="10.25" as="geometry" />
         </mxCell>
         <mxCell id="g4y9v7tZT8X-utRCgkFI-125" parent="g4y9v7tZT8X-utRCgkFI-121" style="rounded=0;whiteSpace=wrap;html=1;direction=south;textDirection=vertical-lr;" value="变更受控率分析" vertex="1">
-          <mxGeometry height="129.5" width="30" x="260" y="10.5" as="geometry" />
-        </mxCell>
-        <mxCell id="g4y9v7tZT8X-utRCgkFI-126" parent="g4y9v7tZT8X-utRCgkFI-121" style="rounded=0;whiteSpace=wrap;html=1;direction=south;textDirection=vertical-lr;" value="启动阶段规范率分析" vertex="1">
-          <mxGeometry height="129" width="30" x="100" y="11" as="geometry" />
+          <mxGeometry height="129.5" width="30" x="234" y="10.25" as="geometry" />
         </mxCell>
         <mxCell id="g4y9v7tZT8X-utRCgkFI-128" parent="g4y9v7tZT8X-utRCgkFI-121" style="rounded=0;whiteSpace=wrap;html=1;" value="研究核心结论" vertex="1">
           <mxGeometry height="30" width="320" x="-1" y="169" as="geometry" />
