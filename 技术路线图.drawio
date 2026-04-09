@@ -152,6 +152,14 @@
         <mxCell id="g4y9v7tZT8X-utRCgkFI-1" parent="1" style="rounded=0;whiteSpace=wrap;html=1;" value="因果分析法" vertex="1">
           <mxGeometry height="30" width="80" x="660" y="490" as="geometry" />
         </mxCell>
+        <mxCell id="g4y9v7tZT8X-utRCgkFI-2" parent="1" style="swimlane;whiteSpace=wrap;html=1;startSize=23;container=0;dropTarget=1;collapsible=0;expand=1;backgroundOutline=0;movable=1;resizable=1;rotatable=1;cloneable=1;deletable=1;pointerEvents=1;fixedHeader=0;fillColor=none;swimlaneLine=0;" value="" vertex="1">
+          <mxGeometry height="190" width="340" x="244" y="710" as="geometry">
+            <mxRectangle height="30" width="140" x="280" y="250" as="alternateBounds" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="g4y9v7tZT8X-utRCgkFI-13" parent="g4y9v7tZT8X-utRCgkFI-2" style="rounded=0;whiteSpace=wrap;html=1;" value="构建PDCA-ECRSI整合模型" vertex="1">
+          <mxGeometry height="30" width="320" x="12" y="14" as="geometry" />
+        </mxCell>
       </root>
     </mxGraphModel>
   </diagram>
